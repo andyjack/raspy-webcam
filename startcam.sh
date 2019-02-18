@@ -14,5 +14,11 @@ for H in ${host} ${host}.local; do
     echo "http://${H}:$port"
 done
 
-# no delay
-cvlc v4l2:///dev/video${deviceNb}:chroma=h264 :input-slave=alsa://hw:1,0 --sout '#transcode{acodec=mpga,ab=128,channels=2,samplerate=44100,threads=4,audio-sync=1}:standard{access=http,mux=ts,mime=video/ts,dst=:'${port}'}' --quiet </dev/null >/dev/null
+AUDIO=$1
+if [ -n "$AUDIO" ]; then
+    echo "Starting stream with audio"
+    cvlc v4l2:///dev/video${deviceNb}:chroma=h264 :input-slave=alsa://hw:1,0 --sout '#transcode{acodec=mpga,ab=128,channels=2,samplerate=44100,threads=4,audio-sync=1}:standard{access=http,mux=ts,mime=video/ts,dst=:'${port}'}' --quiet </dev/null >/dev/null
+else
+    echo "Starting silent stream"
+    cvlc v4l2:///dev/video${deviceNb}:chroma=h264 --sout '#:standard{access=http,mux=ts,mime=video/ts,dst=:'${port}'}' --quiet </dev/null >/dev/null
+fi
