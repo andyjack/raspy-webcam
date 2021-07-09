@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 deviceNb=0
 
 focus() {
@@ -10,7 +12,7 @@ focus() {
 # turn off autofocus
 v4l2-ctl -d ${deviceNb} -c focus_auto=0
 
-if [ -n $1 ]; then
+if [ -n "$1" ]; then
     focus $1
     exit;
 fi
