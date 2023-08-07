@@ -10,7 +10,7 @@ focus() {
 }
 
 # turn off autofocus
-v4l2-ctl -d ${deviceNb} -c focus_auto=0
+v4l2-ctl -d ${deviceNb} -c focus_automatic_continuous=0 -c white_balance_automatic=0 -c auto_exposure=1
 
 if [ -n "$1" ]; then
     focus $1
